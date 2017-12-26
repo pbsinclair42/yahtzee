@@ -1,4 +1,7 @@
 var rollsSoFar = 0;
+var rollsThatWereLeft = 0;
+var dice = [];
+var lastClicked;
 
 Set.prototype.isSuperset = function(subset) {
     for (var elem of subset) {
@@ -103,6 +106,7 @@ function reset(){
     } else {
 	    $('#roll').removeClass('disabled');
 	    $('#roll').prop('disabled',false);
+	    rollsThatWereLeft = rollsSoFar;
 	    rollsSoFar = 0;
     }
 }
@@ -112,17 +116,19 @@ function isGameOver(){
 }
 
 function endGame(){
+	$('#undo').hide();
 	alert("Game over!  Final score: " + $('#totalTotal')[0].innerHTML)
 }
 
 $('#roll').click(function() {
+	$('#undo').hide();
 	if (rollsSoFar<3){
 		$('.scoreCell.free').removeClass('waiting');
 	    $('.die').removeClass('waiting');
 	    $('.die.free').each(function() {
 	        this.innerHTML = roll();
 	    });
-	    var dice = [];
+	    dice = [];
 	    $('.die').each(function(){
 	    	dice.push(this.innerHTML-0);
 	    })
@@ -144,10 +150,11 @@ $('.die').click(function() {
 	        $(this).addClass('free');
 	    }
 	}
-})
+});
 
 $('.scoreCell.free').click(function(){
 	if (rollsSoFar>0 && $(this).hasClass('free')){
+		lastClicked = this;
 		$(this).removeClass('free');
 		var thisScore = this.innerHTML - 0;
 		var column = Array.from(this.parentNode.children).indexOf(this); //note this is indexed from 1 to 3 given row header
@@ -161,6 +168,39 @@ $('.scoreCell.free').click(function(){
 		}
 		$('#totals td:nth-child('+(column+1)+')')[0].innerHTML = thisScore + ($('#totals td:nth-child('+(column+1)+')')[0].innerHTML-0);
 		$('#totalTotal')[0].innerHTML = thisScore + ($('#totalTotal')[0].innerHTML-0);
+		$('#undo').show();
 		reset();
 	}
-})
+});
+
+$('#undo').click(function(){
+	$(this).hide();
+
+	$(lastClicked).addClass('free');
+	var thisScore = $(lastClicked)[0].innerHTML - 0;
+	var column = Array.from(lastClicked.parentNode.children).indexOf(lastClicked); //note this is indexed from 1 to 3 given row header
+	if (lastClicked.matches('.upperRow *')) {
+		newScore = $('#upperTotals td:nth-child('+(column+1)+')')[0].innerHTML - thisScore;
+		$('#upperTotals td:nth-child('+(column+1)+')')[0].innerHTML = newScore;
+		if (newScore + thisScore >= 63 && newScore < 63){
+			$('#bonus td:nth-child('+(column+1)+')')[0].innerHTML = 0;
+			thisScore+=35;
+		}
+	}
+	$('#totals td:nth-child('+(column+1)+')')[0].innerHTML = $('#totals td:nth-child('+(column+1)+')')[0].innerHTML - thisScore;
+	$('#totalTotal')[0].innerHTML = $('#totalTotal')[0].innerHTML - thisScore;
+
+	$('.scoreCell.free').removeClass('waiting');
+    $('.die').removeClass('waiting');
+    dice.forEach(function(value, i){
+    	$('.die.free:nth-child('+(i+1)+')')[0].innerHTML = value;
+    });
+    calculateScores(dice);
+    rollsSoFar = rollsThatWereLeft
+    if (rollsSoFar==3){
+    	$("#roll").prop('disabled', true);
+    	$("#roll").addClass('disabled');
+    	$('.die').removeClass('free');
+		$('.die').addClass('waiting');
+    }
+});
