@@ -34,14 +34,18 @@ body {
 #scoreboard td {
     border: 2px solid darkgrey;
     padding: 5px;
-    min-width: 20px;
+    min-width: 25px;
+    height: 35px;
 }
 #scoreboard th {
     border: 2px solid darkgrey;
     padding: 5px;
 }
-#scoreboard #sixes {
-    border-bottom: 4px solid darkgrey;
+.totals, #threeofakind {
+    border-top: 4px solid darkgrey;
+}
+.totals, .bonus{
+	background-color: #eee;
 }
 .scoreCell {
     color: black;
@@ -52,4 +56,10 @@ body {
 }
 .scoreCell.free:hover {
     color: #bbb;
+}
+.scoreCell.free.waiting {
+	cursor: default;
+}
+.bonusCell {
+	font-size: 
 }

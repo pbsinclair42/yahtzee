@@ -87,14 +87,18 @@ function calculateCounts(dice){
 }
 
 function reset(){
+	$('.die').addClass('free');
+	$('.die').addClass('waiting');
     $('.die').each(function(){
     	this.innerHTML='';
-    	$(this).addClass('free');
     });
+	$('.scoreCell.free').addClass('waiting');
     $('.scoreCell.free').each(function(){
     	this.innerHTML='';
     })
     if (isGameOver()){
+    	$('#roll').prop('disabled', true);
+    	$('#roll').addClass('disabled');
     	endGame();
     } else {
 	    $('#roll').removeClass('disabled');
@@ -108,11 +112,12 @@ function isGameOver(){
 }
 
 function endGame(){
-
+	alert("Game over!  Final score: " + $('#totalTotal')[0].innerHTML)
 }
 
 $('#roll').click(function() {
 	if (rollsSoFar<3){
+		$('.scoreCell.free').removeClass('waiting');
 	    $('.die').removeClass('waiting');
 	    $('.die.free').each(function() {
 	        this.innerHTML = roll();
@@ -125,10 +130,8 @@ $('#roll').click(function() {
 	    if (++rollsSoFar==3){
 	    	$(this).prop('disabled', true);
 	    	$(this).addClass('disabled');
-	    	$('.die').each(function(){
-				$(this).removeClass('free');
-				$(this).addClass('waiting');
-	    	})
+	    	$('.die').removeClass('free');
+			$('.die').addClass('waiting');
 	    }
 	}
 });
@@ -147,11 +150,16 @@ $('.scoreCell.free').click(function(){
 	if (rollsSoFar>0 && $(this).hasClass('free')){
 		$(this).removeClass('free');
 		var thisScore = this.innerHTML - 0;
+		var column = Array.from(this.parentNode.children).indexOf(this); //note this is indexed from 1 to 3 given row header
 		if (this.matches('.upperRow *')) {
-			$('#totalUpper')[0].innerHTML = thisScore + ($('#totalUpper')[0].innerHTML-0);
-		} else {
-			$('#totalLower')[0].innerHTML = thisScore + ($('#totalLower')[0].innerHTML-0);
+			newScore = thisScore + ($('#upperTotals td:nth-child('+(column+1)+')')[0].innerHTML-0);
+			$('#upperTotals td:nth-child('+(column+1)+')')[0].innerHTML = newScore;
+			if (newScore >= 63){
+				$('#bonus td:nth-child('+(column+1)+')')[0].innerHTML = 35;
+				thisScore+=35;
+			}
 		}
+		$('#totals td:nth-child('+(column+1)+')')[0].innerHTML = thisScore + ($('#totals td:nth-child('+(column+1)+')')[0].innerHTML-0);
 		$('#totalTotal')[0].innerHTML = thisScore + ($('#totalTotal')[0].innerHTML-0);
 		reset();
 	}
