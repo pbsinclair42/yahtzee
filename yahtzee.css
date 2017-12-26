@@ -1,0 +1,46 @@
+.die {
+    width: 30px;
+    height: 30px;
+    background-color: aliceblue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
+    border: 1px solid darkgrey;
+    opacity: 0.5;
+    cursor: pointer;
+}
+button {
+    cursor: pointer;
+}
+.die.free {
+    opacity: 1;
+}
+#scoreboard {
+    border: 2px solid darkgrey;
+    border-collapse: collapse;
+    cursor: default;
+    text-align: center;
+}
+#scoreboard td {
+    border: 2px solid darkgrey;
+    padding: 5px;
+    min-width: 20px;
+}
+#scoreboard th {
+    border: 2px solid darkgrey;
+    padding: 5px;
+}
+#scoreboard #sixes {
+    border-bottom: 4px solid darkgrey;
+}
+.scoreCell {
+    color: black;
+}
+.scoreCell.free {
+    color: #fff;
+    cursor: pointer;
+}
+.scoreCell.free:hover {
+    color: #bbb;
+}
