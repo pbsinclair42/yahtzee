@@ -1,3 +1,5 @@
+var rollsSoFar = 0;
+
 Set.prototype.isSuperset = function(subset) {
     for (var elem of subset) {
         if (!this.has(elem)) {
@@ -84,28 +86,65 @@ function calculateCounts(dice){
 	return counts;
 }
 
-$('#roll').click(function() {
-    $('.die.free').each(function() {
-        this.innerHTML = roll();
-    });
-    var dice = [];
+function reset(){
     $('.die').each(function(){
-    	dice.push(this.innerHTML-0);
+    	this.innerHTML='';
+    	$(this).addClass('free');
+    });
+    $('.scoreCell.free').each(function(){
+    	this.innerHTML='';
     })
-    calculateScores(dice);
+    if (isGameOver()){
+    	endGame();
+    } else {
+	    $('#roll').removeClass('disabled');
+	    $('#roll').prop('disabled',false);
+	    rollsSoFar = 0;
+    }
+}
+
+function isGameOver(){
+	return $('.scoreCell.free').length==0;
+}
+
+function endGame(){
+
+}
+
+$('#roll').click(function() {
+	if (rollsSoFar<3){
+	    $('.die').removeClass('waiting');
+	    $('.die.free').each(function() {
+	        this.innerHTML = roll();
+	    });
+	    var dice = [];
+	    $('.die').each(function(){
+	    	dice.push(this.innerHTML-0);
+	    })
+	    calculateScores(dice);
+	    if (++rollsSoFar==3){
+	    	$(this).prop('disabled', true);
+	    	$(this).addClass('disabled');
+	    	$('.die').each(function(){
+				$(this).removeClass('free');
+				$(this).addClass('waiting');
+	    	})
+	    }
+	}
 });
 
-
 $('.die').click(function() {
-    if ($(this).hasClass('free')) {
-        $(this).removeClass('free');
-    } else {
-        $(this).addClass('free');
-    }
+	if (!$(this).hasClass('waiting')){
+	    if ($(this).hasClass('free')) {
+	        $(this).removeClass('free');
+	    } else {
+	        $(this).addClass('free');
+	    }
+	}
 })
 
 $('.scoreCell.free').click(function(){
-	if ($(this).hasClass('free')){
+	if (rollsSoFar>0 && $(this).hasClass('free')){
 		$(this).removeClass('free');
 		var thisScore = this.innerHTML - 0;
 		if (this.matches('.upperRow *')) {
@@ -114,5 +153,6 @@ $('.scoreCell.free').click(function(){
 			$('#totalLower')[0].innerHTML = thisScore + ($('#totalLower')[0].innerHTML-0);
 		}
 		$('#totalTotal')[0].innerHTML = thisScore + ($('#totalTotal')[0].innerHTML-0);
+		reset();
 	}
 })

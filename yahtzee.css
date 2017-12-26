@@ -1,3 +1,6 @@
+body {
+	user-select: none;
+}
 .die {
     width: 30px;
     height: 30px;
@@ -10,11 +13,17 @@
     opacity: 0.5;
     cursor: pointer;
 }
-button {
+#roll {
     cursor: pointer;
+}
+#roll.disabled{
+	cursor: not-allowed;
 }
 .die.free {
     opacity: 1;
+}
+.die.waiting {
+	cursor: default;
 }
 #scoreboard {
     border: 2px solid darkgrey;
