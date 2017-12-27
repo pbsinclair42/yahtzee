@@ -25,24 +25,6 @@ body {
 .die.waiting {
 	cursor: default;
 }
-.die.d1:after {
-	content: '1';
-}
-.die.d2:after {
-	content: '2';
-}
-.die.d3:after {
-	content: '3';
-}
-.die.d4:after {
-	content: '4';
-}
-.die.d5:after {
-	content: '5';
-}
-.die.d6:after {
-	content: '6';
-}
 #scoreboard {
     border: 2px solid darkgrey;
     border-collapse: collapse;
@@ -83,4 +65,65 @@ body {
 }
 #undo {
 	display: none;
+}
+
+
+.die.d1:after {
+    width: 30px;
+    height: 30px;
+    content:'';
+    background-repeat: no-repeat;
+    background-image: radial-gradient(black 50%, transparent 0%);
+    background-size: 10px 10px;
+    background-position: 10px 10px;
+}
+
+.die.d2:after {
+    width: 30px;
+    height: 30px;
+    content:'';
+    background-repeat: no-repeat;
+    background-image: radial-gradient(black 50%, transparent 0%), radial-gradient(black 50%, transparent 0%);
+    background-size: 10px 10px;
+    background-position: 2px 2px, 18px 18px;
+}
+
+.die.d3:after {
+    width: 30px;
+    height: 30px;
+    content:'';
+    background-repeat: no-repeat;
+    background-image: radial-gradient(black 50%, transparent 0%), radial-gradient(black 50%, transparent 0%), radial-gradient(black 50%, transparent 0%);
+    background-size: 10px 10px;
+    background-position: 2px 2px, 10px 10px, 18px 18px;
+}
+
+.die.d4:after {
+    width: 30px;
+    height: 30px;
+    content:'';
+    background-repeat: no-repeat;
+    background-image: radial-gradient(black 50%, transparent 0%), radial-gradient(black 50%, transparent 0%), radial-gradient(black 50%, transparent 0%), radial-gradient(black 50%, transparent 0%);
+    background-size: 10px 10px;
+    background-position: 2px 2px, 2px 18px, 18px 2px, 18px 18px;
+}
+
+.die.d5:after {
+    width: 30px;
+    height: 30px;
+    content:'';
+    background-repeat: no-repeat;
+    background-image: radial-gradient(black 50%, transparent 0%), radial-gradient(black 50%, transparent 0%), radial-gradient(black 50%, transparent 0%), radial-gradient(black 50%, transparent 0%), radial-gradient(black 50%, transparent 0%);
+    background-size: 10px 10px;
+    background-position: 2px 2px, 2px 18px, 10px 10px, 18px 2px, 18px 18px;
+}
+
+.die.d6:after {
+    width: 30px;
+    height: 30px;
+    content:'';
+    background-repeat: no-repeat;
+    background-image: radial-gradient(black 50%, transparent 0%), radial-gradient(black 50%, transparent 0%), radial-gradient(black 50%, transparent 0%), radial-gradient(black 50%, transparent 0%), radial-gradient(black 50%, transparent 0%), radial-gradient(black 50%, transparent 0%);
+    background-size: 10px 10px;
+    background-position: 2px 2px, 2px 18px, 2px 10px, 18px 10px, 18px 2px, 18px 18px;
 }
