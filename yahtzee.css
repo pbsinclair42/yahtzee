@@ -25,6 +25,24 @@ body {
 .die.waiting {
 	cursor: default;
 }
+.die.d1:after {
+	content: '1';
+}
+.die.d2:after {
+	content: '2';
+}
+.die.d3:after {
+	content: '3';
+}
+.die.d4:after {
+	content: '4';
+}
+.die.d5:after {
+	content: '5';
+}
+.die.d6:after {
+	content: '6';
+}
 #scoreboard {
     border: 2px solid darkgrey;
     border-collapse: collapse;

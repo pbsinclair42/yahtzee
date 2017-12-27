@@ -93,7 +93,7 @@ function reset(){
 	$('.die').addClass('free');
 	$('.die').addClass('waiting');
     $('.die').each(function(){
-    	this.innerHTML='';
+    	$(this).removeClass('d1 d2 d3 d4 d5 d6');
     });
 	$('.scoreCell.free').addClass('waiting');
     $('.scoreCell.free').each(function(){
@@ -121,17 +121,23 @@ function endGame(){
 }
 
 $('#roll').click(function() {
-	$('#undo').hide();
 	if (rollsSoFar<3){
+		$('#undo').hide();
 		$('.scoreCell.free').removeClass('waiting');
 	    $('.die').removeClass('waiting');
+	    dice = Array.from($('.die:not(.free)').map(function(){
+	    	for (var i=1; i<=6; i++){
+		    	if ($(this).hasClass('d'+i)){
+		    		return i;
+		    	}
+		    }
+	    }));
 	    $('.die.free').each(function() {
-	        this.innerHTML = roll();
+	    	$(this).removeClass('d1 d2 d3 d4 d5 d6');
+	    	var dieValue = roll();
+	        $(this).addClass("d"+dieValue);
+	        dice.push(dieValue);
 	    });
-	    dice = [];
-	    $('.die').each(function(){
-	    	dice.push(this.innerHTML-0);
-	    })
 	    calculateScores(dice);
 	    if (++rollsSoFar==3){
 	    	$(this).prop('disabled', true);
@@ -193,7 +199,7 @@ $('#undo').click(function(){
 	$('.scoreCell.free').removeClass('waiting');
     $('.die').removeClass('waiting');
     dice.forEach(function(value, i){
-    	$('.die.free:nth-child('+(i+1)+')')[0].innerHTML = value;
+    	$('.die.free:nth-child('+(i+1)+')').addClass("d"+value);
     });
     calculateScores(dice);
     rollsSoFar = rollsThatWereLeft
