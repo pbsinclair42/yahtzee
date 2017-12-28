@@ -2,6 +2,10 @@ var rollsSoFar = 0;
 var rollsThatWereLeft = 0;
 var dice = [];
 var lastClicked;
+var highscores;
+var NUMBER_OF_HIGH_SCORES_SAVED = 10;
+
+// Helper functions
 
 Set.prototype.isSuperset = function(subset) {
     for (var elem of subset) {
@@ -11,6 +15,30 @@ Set.prototype.isSuperset = function(subset) {
     }
     return true;
 }
+
+function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    var expires = "expires="+d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+// Yahtzee functions
 
 function roll() {
     return Math.floor((Math.random() * 6) + 1);
@@ -117,7 +145,23 @@ function isGameOver(){
 
 function endGame(){
 	$('#undo').hide();
-	alert("Game over!  Final score: " + $('#totalTotal')[0].innerHTML)
+	var finalScore = $('#totalTotal')[0].innerHTML - 0;
+	var gameOverMessage = "Game over!  Final score: " + finalScore;
+	if (highscores.length < NUMBER_OF_HIGH_SCORES_SAVED || highscores[NUMBER_OF_HIGH_SCORES_SAVED-1].score<finalScore){
+		gameOverMessage+="\n\nNew high score!"
+		var dateNow = new Date().toLocaleString();
+		var newHighScore = {'score':finalScore,'date':dateNow}
+		if (highscores.length < NUMBER_OF_HIGH_SCORES_SAVED){
+			highscores.push(newHighScore);
+		} else {
+			highscores[NUMBER_OF_HIGH_SCORES_SAVED-1] = newHighScore;
+		}
+		highscores.sort(function(a,b){
+			return b.score - a.score;
+		});
+		setCookie("highscores", JSON.stringify(highscores), 10*365);
+	}
+	alert(gameOverMessage);
 }
 
 $('#roll').click(function() {
@@ -210,3 +254,16 @@ $('#undo').click(function(){
 		$('.die').addClass('waiting');
     }
 });
+
+$('#viewHighscores').click(function(){
+	alert(highscores.map(function(x, i){return (i+1)+'\t'+ x.score + '\t' + x.date}).join('\n'))
+})
+
+$(function(){
+	highscores = getCookie("highscores");
+	if (highscores==""){
+		highscores = [];
+	} else {
+		highscores = JSON.parse(highscores);
+	}
+})
