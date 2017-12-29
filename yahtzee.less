@@ -36,29 +36,47 @@ body {
         background-repeat: no-repeat;
         background-size: @dotWidth @dotWidth;
     }
-    &.d1:after{
-        background-image: @dot;
-        background-position: @mm;
+    &.d1{
+        background-color: lightblue;
+        &:after{
+            background-image: @dot;
+            background-position: @mm;
+        }
     }
-    &.d2:after{
-        background-image: @dot, @dot;
-        background-position: @tl, @br;
+    &.d2{
+        background-color: lightgreen;
+        &:after{
+            background-image: @dot, @dot;
+            background-position: @tl, @br;
+        }
     }
-    &.d3:after{
-        background-image: @dot, @dot, @dot;
-        background-position: @tl, @mm, @br;
+    &.d3{
+        background-color: lighten(orange, 20%);
+        &:after{
+            background-image: @dot, @dot, @dot;
+            background-position: @tl, @mm, @br;
+        }
     }
-    &.d4:after{
-        background-image: @dot, @dot, @dot, @dot;
-        background-position: @tl, @bl, @tr, @br;
+    &.d4{
+        background-color: lighten(yellow,30%);
+        &:after{
+            background-image: @dot, @dot, @dot, @dot;
+            background-position: @tl, @bl, @tr, @br;
+        }
     }
-    &.d5:after{
-        background-image: @dot, @dot, @dot, @dot, @dot;
-        background-position: @tl, @bl, @mm, @tr, @br;
+    &.d5{
+        background-color: lightpink;
+        &:after{
+            background-image: @dot, @dot, @dot, @dot, @dot;
+            background-position: @tl, @bl, @mm, @tr, @br;
+        }
     }
-    &.d6:after{
-        background-image: @dot, @dot, @dot, @dot, @dot, @dot;
-        background-position: @tl, @ml, @bl, @tr, @mr, @br;
+    &.d6{
+        background-color: lighten(purple, 50%);
+        &:after{
+            background-image: @dot, @dot, @dot, @dot, @dot, @dot;
+            background-position: @tl, @ml, @bl, @tr, @mr, @br;
+        }
     }
 }
 
