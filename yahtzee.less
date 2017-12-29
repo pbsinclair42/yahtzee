@@ -1,0 +1,108 @@
+@dieWidth: 80px;
+@dot: radial-gradient(black 50%, transparent 0%);
+@dotWidth: @dieWidth/4;
+@tl: (@dieWidth/15) (@dieWidth/15);
+@tr: (@dieWidth - @dotWidth - @dieWidth/15) (@dieWidth/15);
+@bl: (@dieWidth/15) (@dieWidth - @dotWidth - @dieWidth/15);
+@br: (@dieWidth - @dotWidth - @dieWidth/15) (@dieWidth - @dotWidth - @dieWidth/15);
+@ml: (@dieWidth/15) ((@dieWidth - @dotWidth)/2);
+@mm: ((@dieWidth - @dotWidth)/2);
+@mr: (@dieWidth - @dotWidth - @dieWidth/15) ((@dieWidth - @dotWidth)/2);
+
+body {
+	user-select: none;
+}
+.die {
+    width: @dieWidth;
+    height: @dieWidth;
+    background-color: aliceblue;
+    display: flex;
+    justify-content: mm;
+    align-items: mm;
+    margin: 5px;
+    border: 1px solid darkgrey;
+    opacity: 0.5;
+    cursor: pointer;
+    &.free{
+        opacity: 1;
+    }
+    &.waiting{
+        cursor: default;
+    }
+    &:after{
+        width: @dieWidth;
+        height: @dieWidth;
+        content: '';
+        background-repeat: no-repeat;
+        background-size: @dotWidth @dotWidth;
+    }
+    &.d1:after{
+        background-image: @dot;
+        background-position: @mm;
+    }
+    &.d2:after{
+        background-image: @dot, @dot;
+        background-position: @tl, @br;
+    }
+    &.d3:after{
+        background-image: @dot, @dot, @dot;
+        background-position: @tl, @mm, @br;
+    }
+    &.d4:after{
+        background-image: @dot, @dot, @dot, @dot;
+        background-position: @tl, @bl, @tr, @br;
+    }
+    &.d5:after{
+        background-image: @dot, @dot, @dot, @dot, @dot;
+        background-position: @tl, @bl, @mm, @tr, @br;
+    }
+    &.d6:after{
+        background-image: @dot, @dot, @dot, @dot, @dot, @dot;
+        background-position: @tl, @ml, @bl, @tr, @mr, @br;
+    }
+}
+
+#roll {
+    cursor: pointer;
+    &.disabled{
+        cursor: not-allowed;
+    }
+}
+#scoreboard {
+    border: 2px solid darkgrey;
+    border-collapse: collapse;
+    cursor: default;
+    text-align: center;
+    td {
+        border: 2px solid darkgrey;
+        padding: 5px;
+        min-width: 25px;
+        height: 35px;
+    }
+    th {
+        border: 2px solid darkgrey;
+        padding: 5px;
+    }
+}
+.totals, #threeofakind {
+    border-top: 4px solid darkgrey;
+}
+.totals, .bonus{
+	background-color: #eee;
+}
+.scoreCell {
+    color: black;
+     &.free {
+        color: #fff;
+        cursor: pointer;
+        &:hover {
+            color: #bbb;
+        }
+        &.waiting {
+            cursor: default;
+        }
+    }
+}
+#undo {
+	display: none;
+}
