@@ -144,13 +144,13 @@ function isGameOver(){
 }
 
 function endGame(){
-	$('#undo').addClass('hidden');
+	//$('#undo').addClass('hidden');
 	var finalScore = $('#totalTotal')[0].innerHTML - 0;
 	var gameOverMessage = "Game over!  Final score: " + finalScore;
 	if (highscores.length < NUMBER_OF_HIGH_SCORES_SAVED || highscores[NUMBER_OF_HIGH_SCORES_SAVED-1].score<finalScore){
-		gameOverMessage+="\n\nNew high score!"
+		gameOverMessage+="\n\nNew high score!";
 		var dateNow = new Date().toLocaleDateString('en-GB');
-		var newHighScore = {'score':finalScore,'date':dateNow}
+		var newHighScore = {'score':finalScore,'date':dateNow};
 		if (highscores.length < NUMBER_OF_HIGH_SCORES_SAVED){
 			highscores.push(newHighScore);
 		} else {
@@ -161,7 +161,12 @@ function endGame(){
 		});
 		setCookie("highscores", JSON.stringify(highscores), 10*365);
 	}
-	updateHighscoreDisplay()
+	updateHighscoreDisplay();
+	$('#undo').text("New Game");
+	$('#undo').off('click');
+	$('#undo').click(function(){
+		document.location.reload();
+	})
 	alert(gameOverMessage);
 }
 
