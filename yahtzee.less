@@ -16,12 +16,18 @@ body {
     display: flex;
     justify-content: center;
 }
+
 #game{
     display: flex;
     align-items: center;
     height: fit-content;
     margin-top: 7px;
+
+    .diceContainer{
+        margin-right: 100px;    
+    }
 }
+
 .die {
     width: @dieWidth;
     height: @dieWidth;
@@ -100,6 +106,7 @@ body {
         cursor: not-allowed;
     }
 }
+
 .scoreboard {
     border-collapse: collapse;
     cursor: default;
@@ -114,42 +121,37 @@ body {
         border: 2px solid darkgrey;
         padding: 3px 5px;
     }
-}
-.totals, #threeofakind {
-    border-top: 3px solid darkgrey;
-}
-.totals, .bonus{
-	background-color: #eee;
-}
-.scoreCell {
-    color: black;
-     &.free {
-        color: #fff;
-        cursor: pointer;
-        &:hover {
-            color: #bbb;
-        }
-        &.waiting {
-            cursor: default;
+    .totals, #threeofakind {
+        border-top: 3px solid darkgrey;
+    }
+
+    .totals, .bonus{
+        background-color: #eee;
+    }
+    .scoreCell {
+        color: black;
+         &.free {
+            color: #fff;
+            cursor: pointer;
+            &:hover {
+                color: #bbb;
+            }
+            &.waiting {
+                cursor: default;
+            }
         }
     }
 }
+
 #undo {
-	opacity: 0;
     margin-top: 10px;
     width: 100%;
     padding: 5px;
     cursor: pointer;
-}
-
-
-.diceContainer{
-    display: inline-block;
-    margin-right: 100px;
-}
-
-.scoreboardContainer {
-    display: inline-block;
+    &.hidden{
+        opacity: 0;
+        cursor: default;
+    }
 }
 
 #highscores {

@@ -144,7 +144,7 @@ function isGameOver(){
 }
 
 function endGame(){
-	$('#undo').css({"opacity":0});
+	$('#undo').addClass('hidden');
 	var finalScore = $('#totalTotal')[0].innerHTML - 0;
 	var gameOverMessage = "Game over!  Final score: " + finalScore;
 	if (highscores.length < NUMBER_OF_HIGH_SCORES_SAVED || highscores[NUMBER_OF_HIGH_SCORES_SAVED-1].score<finalScore){
@@ -173,7 +173,7 @@ function updateHighscoreDisplay(){
 	$('#clearHighscoresButton').click(function(){
 		if (confirm("Are you sure you want to reset your highscores?  This cannot be undone!")){
 			highscores = [];
-			setCookie("highscores", JSON.stringify(highscores), 10*365);
+			setCookie("highscores", "", 10*365);
 			$('#highscores tbody').empty();
 		}
 	});
@@ -181,7 +181,7 @@ function updateHighscoreDisplay(){
 
 $('#roll').click(function() {
 	if (rollsSoFar<3){
-		$('#undo').css({"opacity":0});
+		$('#undo').addClass('hidden');
 		$('.scoreCell.free').removeClass('waiting');
 	    $('.die').removeClass('waiting');
 	    dice = Array.from($('.die:not(.free)').map(function(){
@@ -233,41 +233,43 @@ $('.scoreCell.free').click(function(){
 		}
 		$('#totals td:nth-child('+(column+1)+')')[0].innerHTML = thisScore + ($('#totals td:nth-child('+(column+1)+')')[0].innerHTML-0);
 		$('#totalTotal')[0].innerHTML = thisScore + ($('#totalTotal')[0].innerHTML-0);
-		$('#undo').css({"opacity":1});
+		$('#undo').removeClass('hidden');
 		reset();
 	}
 });
 
 $('#undo').click(function(){
-	$(this).css({"opacity":0});
+	if (!$(this).hasClass('hidden')){
+		$(this).addClass('hidden');
 
-	$(lastClicked).addClass('free');
-	var thisScore = $(lastClicked)[0].innerHTML - 0;
-	var column = Array.from(lastClicked.parentNode.children).indexOf(lastClicked); //note this is indexed from 1 to 3 given row header
-	if (lastClicked.matches('.upperRow *')) {
-		newScore = $('#upperTotals td:nth-child('+(column+1)+')')[0].innerHTML - thisScore;
-		$('#upperTotals td:nth-child('+(column+1)+')')[0].innerHTML = newScore;
-		if (newScore + thisScore >= 63 && newScore < 63){
-			$('#bonus td:nth-child('+(column+1)+')')[0].innerHTML = 0;
-			thisScore+=35;
+		$(lastClicked).addClass('free');
+		var thisScore = $(lastClicked)[0].innerHTML - 0;
+		var column = Array.from(lastClicked.parentNode.children).indexOf(lastClicked); //note this is indexed from 1 to 3 given row header
+		if (lastClicked.matches('.upperRow *')) {
+			newScore = $('#upperTotals td:nth-child('+(column+1)+')')[0].innerHTML - thisScore;
+			$('#upperTotals td:nth-child('+(column+1)+')')[0].innerHTML = newScore;
+			if (newScore + thisScore >= 63 && newScore < 63){
+				$('#bonus td:nth-child('+(column+1)+')')[0].innerHTML = 0;
+				thisScore+=35;
+			}
 		}
-	}
-	$('#totals td:nth-child('+(column+1)+')')[0].innerHTML = $('#totals td:nth-child('+(column+1)+')')[0].innerHTML - thisScore;
-	$('#totalTotal')[0].innerHTML = $('#totalTotal')[0].innerHTML - thisScore;
+		$('#totals td:nth-child('+(column+1)+')')[0].innerHTML = $('#totals td:nth-child('+(column+1)+')')[0].innerHTML - thisScore;
+		$('#totalTotal')[0].innerHTML = $('#totalTotal')[0].innerHTML - thisScore;
 
-	$('.scoreCell.free').removeClass('waiting');
-    $('.die').removeClass('waiting');
-    dice.forEach(function(value, i){
-    	$('.die.free:nth-child('+(i+1)+')').addClass("d"+value);
-    });
-    calculateScores(dice);
-    rollsSoFar = rollsThatWereLeft
-    if (rollsSoFar==3){
-    	$("#roll").prop('disabled', true);
-    	$("#roll").addClass('disabled');
-    	$('.die').removeClass('free');
-		$('.die').addClass('waiting');
-    }
+		$('.scoreCell.free').removeClass('waiting');
+	    $('.die').removeClass('waiting');
+	    dice.forEach(function(value, i){
+	    	$('.die.free:nth-child('+(i+1)+')').addClass("d"+value);
+	    });
+	    calculateScores(dice);
+	    rollsSoFar = rollsThatWereLeft
+	    if (rollsSoFar==3){
+	    	$("#roll").prop('disabled', true);
+	    	$("#roll").addClass('disabled');
+	    	$('.die').removeClass('free');
+			$('.die').addClass('waiting');
+	    }
+	}
 });
 
 $(function(){
