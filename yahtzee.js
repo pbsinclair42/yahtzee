@@ -144,12 +144,12 @@ function isGameOver(){
 }
 
 function endGame(){
-	$('#undo').hide();
+	$('#undo').css({"opacity":0});
 	var finalScore = $('#totalTotal')[0].innerHTML - 0;
 	var gameOverMessage = "Game over!  Final score: " + finalScore;
 	if (highscores.length < NUMBER_OF_HIGH_SCORES_SAVED || highscores[NUMBER_OF_HIGH_SCORES_SAVED-1].score<finalScore){
 		gameOverMessage+="\n\nNew high score!"
-		var dateNow = new Date().toLocaleString();
+		var dateNow = new Date().toLocaleDateString('en-GB');
 		var newHighScore = {'score':finalScore,'date':dateNow}
 		if (highscores.length < NUMBER_OF_HIGH_SCORES_SAVED){
 			highscores.push(newHighScore);
@@ -161,12 +161,19 @@ function endGame(){
 		});
 		setCookie("highscores", JSON.stringify(highscores), 10*365);
 	}
+	updateHighscoreDisplay()
 	alert(gameOverMessage);
 }
 
+function updateHighscoreDisplay(){
+	var headerRow="<tr><th>Rank</th><th>Score</th><th>Date</th></tr>\n";
+	$('#highscores tbody').empty();
+	$('#highscores tbody').append(headerRow+highscores.map(function(x, i){return "<tr><td>"+(i+1)+'</td><td>'+ x.score + '</td><td>' + x.date+'</td></tr>'}).join('\n'));
+};
+
 $('#roll').click(function() {
 	if (rollsSoFar<3){
-		$('#undo').hide();
+		$('#undo').css({"opacity":0});
 		$('.scoreCell.free').removeClass('waiting');
 	    $('.die').removeClass('waiting');
 	    dice = Array.from($('.die:not(.free)').map(function(){
@@ -218,13 +225,13 @@ $('.scoreCell.free').click(function(){
 		}
 		$('#totals td:nth-child('+(column+1)+')')[0].innerHTML = thisScore + ($('#totals td:nth-child('+(column+1)+')')[0].innerHTML-0);
 		$('#totalTotal')[0].innerHTML = thisScore + ($('#totalTotal')[0].innerHTML-0);
-		$('#undo').show();
+		$('#undo').css({"opacity":1});
 		reset();
 	}
 });
 
 $('#undo').click(function(){
-	$(this).hide();
+	$(this).css({"opacity":0});
 
 	$(lastClicked).addClass('free');
 	var thisScore = $(lastClicked)[0].innerHTML - 0;
@@ -255,15 +262,12 @@ $('#undo').click(function(){
     }
 });
 
-$('#viewHighscores').click(function(){
-	alert(highscores.map(function(x, i){return (i+1)+'\t'+ x.score + '\t' + x.date}).join('\n'))
-})
-
 $(function(){
 	highscores = getCookie("highscores");
 	if (highscores==""){
 		highscores = [];
 	} else {
 		highscores = JSON.parse(highscores);
+		updateHighscoreDisplay();
 	}
 })

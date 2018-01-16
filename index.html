@@ -4,16 +4,19 @@
 </head>
 
 <body>
-	<div class='dice'>
-		<div class='die free waiting'></div>
-		<div class='die free waiting'></div>
-		<div class='die free waiting'></div>
-		<div class='die free waiting'></div>
-		<div class='die free waiting'></div>
+	<div class='diceContainer'>
+		<div class='dice'>
+			<div class='die free waiting'></div>
+			<div class='die free waiting'></div>
+			<div class='die free waiting'></div>
+			<div class='die free waiting'></div>
+			<div class='die free waiting'></div>
+		</div>
+		<button id='roll'>Roll!</button>
 	</div>
-	<button id='roll'>Roll!</button>
-
-	<table id='scoreboard'><tbody>
+	<div class='scoreboardContainer'>
+	<table class='scoreboard'>
+		<tbody>
 			<tr class='upperRow' id='ones'><th>1s</th><td class='scoreCell free waiting'></td><td class='scoreCell free waiting'></td><td class='scoreCell free waiting'></td></tr>
 			<tr class='upperRow' id='twos'><th>2s</th><td class='scoreCell free waiting'></td><td class='scoreCell free waiting'></td><td class='scoreCell free waiting'></td></tr>
 			<tr class='upperRow' id='threes'><th>3s</th><td class='scoreCell free waiting'></td><td class='scoreCell free waiting'></td><td class='scoreCell free waiting'></td></tr>
@@ -31,8 +34,12 @@
 			<tr class='lowerRow' id='yahtzee'><th>Yahtzee!</th><td class='scoreCell free waiting'></td><td class='scoreCell free waiting'></td><td class='scoreCell free waiting'></td></tr>
 			<tr class='lowerRow' id='chance'><th>Chance</th><td class='scoreCell free waiting'></td><td class='scoreCell free waiting'></td><td class='scoreCell free waiting'></td></tr>
 			<tr class='totals' id='totals'><th>Totals</th><td class='totalCell'>0</td><td class='totalCell'>0</td><td class='totalCell'>0</td><td class='totalCell' id='totalTotal'>0</td></tr>
-	</tbody></table>
+		</tbody>
+	</table>
 	<button id='undo'>Undo</button>
-	<button id='viewHighscores'>View highscores</button>
+	</div>
+	<table id='highscores'>
+		<tbody></tbody>
+	</table>
 	<script src='yahtzee.js'></script>
 </body>

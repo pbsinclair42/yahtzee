@@ -1,4 +1,5 @@
-@dieWidth: 80px;
+@dieWidth: 60px;
+@dieBorderWidth: 1px;
 @dot: radial-gradient(black 50%, transparent 0%);
 @dotWidth: @dieWidth/4;
 @tl: (@dieWidth/15) (@dieWidth/15);
@@ -11,6 +12,9 @@
 
 body {
 	user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .die {
     width: @dieWidth;
@@ -20,7 +24,7 @@ body {
     justify-content: mm;
     align-items: mm;
     margin: 5px;
-    border: 1px solid darkgrey;
+    border: @dieBorderWidth solid darkgrey;
     opacity: 0.5;
     cursor: pointer;
     &.free{
@@ -81,29 +85,32 @@ body {
 }
 
 #roll {
+    width: (@dieWidth + @dieBorderWidth * 2);
+    height: 40px;
+    margin-top: 25px;
+    font-size: 20px;
     cursor: pointer;
     &.disabled{
         cursor: not-allowed;
     }
 }
-#scoreboard {
-    border: 2px solid darkgrey;
+.scoreboard {
     border-collapse: collapse;
     cursor: default;
     text-align: center;
     td {
         border: 2px solid darkgrey;
-        padding: 5px;
+        padding: 3px;
         min-width: 25px;
-        height: 35px;
+        height: 31px;
     }
     th {
         border: 2px solid darkgrey;
-        padding: 5px;
+        padding: 3px 5px;
     }
 }
 .totals, #threeofakind {
-    border-top: 4px solid darkgrey;
+    border-top: 3px solid darkgrey;
 }
 .totals, .bonus{
 	background-color: #eee;
@@ -122,5 +129,42 @@ body {
     }
 }
 #undo {
-	display: none;
+	opacity: 0;
+    margin-top: 10px;
+    width: 100%;
+    padding: 5px;
+    cursor: pointer;
+}
+
+
+.diceContainer{
+    display: inline-block;
+    margin-right: 100px;
+}
+
+.scoreboardContainer {
+    display: inline-block;
+}
+
+body {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#highscores {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    text-align: center;
+    border-collapse: collapse;
+    td {
+        padding: 5px;
+        border: solid 2px darkgrey;
+    }
+    th {
+        padding: 5px;
+        border: solid darkgrey 2px;
+        border-bottom-width: 3px;
+    }
 }
