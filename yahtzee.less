@@ -12,9 +12,15 @@
 
 body {
 	user-select: none;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+#game{
     display: flex;
     align-items: center;
-    justify-content: center;
+    height: fit-content;
+    margin-top: 7px;
 }
 .die {
     width: @dieWidth;
@@ -146,25 +152,24 @@ body {
     display: inline-block;
 }
 
-body {
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-}
-
 #highscores {
     position: absolute;
     right: 15px;
     top: 15px;
     text-align: center;
     border-collapse: collapse;
-    td {
+    td:not(.clearHighscores), th {
         padding: 5px;
         border: solid 2px darkgrey;
     }
     th {
-        padding: 5px;
-        border: solid darkgrey 2px;
         border-bottom-width: 3px;
+    }
+    td.clearHighscores {
+        padding: 5px 0;
+        #clearHighscoresButton {
+            padding: 5px;
+            width: 100%;
+        }
     }
 }

@@ -167,8 +167,16 @@ function endGame(){
 
 function updateHighscoreDisplay(){
 	var headerRow="<tr><th>Rank</th><th>Score</th><th>Date</th></tr>\n";
+	var clearHighscoresRow="<tr><td colspan='3' class='clearHighscores'><button id='clearHighscoresButton'>Reset highscores</button></td></tr>"
 	$('#highscores tbody').empty();
-	$('#highscores tbody').append(headerRow+highscores.map(function(x, i){return "<tr><td>"+(i+1)+'</td><td>'+ x.score + '</td><td>' + x.date+'</td></tr>'}).join('\n'));
+	$('#highscores tbody').append(headerRow+highscores.map(function(x, i){return "<tr><td>"+(i+1)+'</td><td>'+ x.score + '</td><td>' + x.date+'</td></tr>'}).join('\n')+clearHighscoresRow);
+	$('#clearHighscoresButton').click(function(){
+		if (confirm("Are you sure you want to reset your highscores?  This cannot be undone!")){
+			highscores = [];
+			setCookie("highscores", JSON.stringify(highscores), 10*365);
+			$('#highscores tbody').empty();
+		}
+	});
 };
 
 $('#roll').click(function() {
