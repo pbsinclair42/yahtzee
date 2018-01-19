@@ -228,6 +228,7 @@ $('.scoreCell.free').click(function(){
 		$(this).removeClass('free');
 		var thisScore = this.innerHTML - 0;
 		var column = Array.from(this.parentNode.children).indexOf(this); //note this is indexed from 1 to 3 given row header
+		var multiplier = column == 1 ? 1.25 : (column == 2 ? 1 : 0.75);
 		if (this.matches('.upperRow *')) {
 			newScore = thisScore + ($('#upperTotals td:nth-child('+(column+1)+')')[0].innerHTML-0);
 			$('#upperTotals td:nth-child('+(column+1)+')')[0].innerHTML = newScore;
@@ -236,8 +237,8 @@ $('.scoreCell.free').click(function(){
 				thisScore+=35;
 			}
 		}
-		$('#totals td:nth-child('+(column+1)+')')[0].innerHTML = thisScore + ($('#totals td:nth-child('+(column+1)+')')[0].innerHTML-0);
-		$('#totalTotal')[0].innerHTML = thisScore + ($('#totalTotal')[0].innerHTML-0);
+		$('#totals td:nth-child('+(column+1)+')')[0].innerHTML = Math.ceil(multiplier * thisScore) + ($('#totals td:nth-child('+(column+1)+')')[0].innerHTML-0);
+		$('#totalTotal')[0].innerHTML = Math.ceil(multiplier * thisScore) + ($('#totalTotal')[0].innerHTML-0);
 		$('#undo').removeClass('hidden');
 		reset();
 	}
@@ -250,6 +251,7 @@ $('#undo').click(function(){
 		$(lastClicked).addClass('free');
 		var thisScore = $(lastClicked)[0].innerHTML - 0;
 		var column = Array.from(lastClicked.parentNode.children).indexOf(lastClicked); //note this is indexed from 1 to 3 given row header
+		var multiplier = column == 1 ? 1.25 : (column == 2 ? 1 : 0.75);
 		if (lastClicked.matches('.upperRow *')) {
 			newScore = $('#upperTotals td:nth-child('+(column+1)+')')[0].innerHTML - thisScore;
 			$('#upperTotals td:nth-child('+(column+1)+')')[0].innerHTML = newScore;
@@ -258,8 +260,8 @@ $('#undo').click(function(){
 				thisScore+=35;
 			}
 		}
-		$('#totals td:nth-child('+(column+1)+')')[0].innerHTML = $('#totals td:nth-child('+(column+1)+')')[0].innerHTML - thisScore;
-		$('#totalTotal')[0].innerHTML = $('#totalTotal')[0].innerHTML - thisScore;
+		$('#totals td:nth-child('+(column+1)+')')[0].innerHTML = $('#totals td:nth-child('+(column+1)+')')[0].innerHTML - Math.ceil(multiplier * thisScore);
+		$('#totalTotal')[0].innerHTML = $('#totalTotal')[0].innerHTML - Math.ceil(multiplier * thisScore);
 
 		$('.scoreCell.free').removeClass('waiting');
 	    $('.die').removeClass('waiting');
