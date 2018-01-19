@@ -230,9 +230,10 @@ $('.scoreCell.free').click(function(){
 		var column = Array.from(this.parentNode.children).indexOf(this); //note this is indexed from 1 to 3 given row header
 		var multiplier = column == 1 ? 1.25 : (column == 2 ? 1 : 0.75);
 		if (this.matches('.upperRow *')) {
-			newScore = thisScore + ($('#upperTotals td:nth-child('+(column+1)+')')[0].innerHTML-0);
+			oldScore = $('#upperTotals td:nth-child('+(column+1)+')')[0].innerHTML-0;
+			newScore = thisScore + oldScore;
 			$('#upperTotals td:nth-child('+(column+1)+')')[0].innerHTML = newScore;
-			if (newScore >= 63){
+			if (oldScore<63 && newScore >= 63){
 				$('#bonus td:nth-child('+(column+1)+')')[0].innerHTML = 35;
 				thisScore+=35;
 			}
@@ -253,9 +254,10 @@ $('#undo').click(function(){
 		var column = Array.from(lastClicked.parentNode.children).indexOf(lastClicked); //note this is indexed from 1 to 3 given row header
 		var multiplier = column == 1 ? 1.25 : (column == 2 ? 1 : 0.75);
 		if (lastClicked.matches('.upperRow *')) {
-			newScore = $('#upperTotals td:nth-child('+(column+1)+')')[0].innerHTML - thisScore;
+			oldScore = $('#upperTotals td:nth-child('+(column+1)+')')[0].innerHTML-0;
+			newScore = oldScore - thisScore;
 			$('#upperTotals td:nth-child('+(column+1)+')')[0].innerHTML = newScore;
-			if (newScore + thisScore >= 63 && newScore < 63){
+			if (oldScore >= 63 && newScore < 63){
 				$('#bonus td:nth-child('+(column+1)+')')[0].innerHTML = 0;
 				thisScore+=35;
 			}
